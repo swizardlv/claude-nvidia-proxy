@@ -8,7 +8,7 @@ Expose `POST /v1/messages` (Anthropic/Claude style), convert to OpenAI Chat Comp
 
 ## Config
 
-Edit `go/config.json`:
+Edit `config.json`:
 
 - `nvidia_url` default `https://integrate.api.nvidia.com/v1/chat/completions`
 - `nvidia_key` required: used for upstream auth, sent as `Authorization: Bearer ...`
@@ -29,7 +29,6 @@ Do not commit your real `nvidia_key`.
 ## Run
 
 ```bash
-cd go
 go run .
 ```
 
@@ -103,7 +102,6 @@ export GOMODCACHE=/tmp/gomodcache
 Linux (amd64):
 
 ```bash
-cd go
 mkdir -p dist
 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/claude-nvidia-proxy_linux_amd64 .
 ```
@@ -111,15 +109,9 @@ GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/claude-nvidi
 Windows (amd64):
 
 ```bash
-cd go
 mkdir -p dist
 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/claude-nvidia-proxy_windows_amd64.exe .
 ```
-
-## Notes / Limitations
-
-- Streaming conversion supports `delta.content` text and `delta.tool_calls` tool-use blocks; other Anthropic blocks are not fully implemented.
-- Logs show forwarded request bodies; keep `LOG_BODY_MAX_CHARS` small and avoid secrets in prompts.
 
 ## API
 
@@ -153,31 +145,6 @@ curl -N http://127.0.0.1:3001/v1/messages \
     "stream":true,
     "messages":[{"role":"user","content":"hello"}]
   }'
-```
-
-## Build
-
-This project uses only Go stdlib (no external deps). If your environment blocks the default Go build cache path, set:
-
-```bash
-export GOCACHE=/tmp/go-build-cache
-export GOMODCACHE=/tmp/gomodcache
-```
-
-Linux (amd64):
-
-```bash
-cd go
-mkdir -p dist
-GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/claude-nvidia-proxy_linux_amd64 .
-```
-
-Windows (amd64):
-
-```bash
-cd go
-mkdir -p dist
-GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-s -w" -o dist/claude-nvidia-proxy_windows_amd64.exe .
 ```
 
 ## Notes / Limitations
