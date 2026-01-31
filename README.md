@@ -1,7 +1,7 @@
 # claude-nvidia-proxy (Go)
 
 Go https://build.nvidia.com/explore/discover, register an account, and generate an API key. 
-NVIDIA provides two hidden models, z-ai/glm4.7 and minimaxai/minimax-m2.1
+NVIDIA provides two hidden models, moonshotai/kimi-k2.5 z-ai/glm4.7 and minimaxai/minimax-m2.1
 Then, configure the config.json file and run the program, ensuring it listens on port 3001.
 
 Expose `POST /v1/messages` (Anthropic/Claude style), convert to OpenAI Chat Completions, and proxy to NVIDIA (configured via `config.json`).
@@ -33,6 +33,15 @@ go run .
 ```
 
 ## CLAUDE CODE
+
+use moonshotai/kimi-k2.5 model
+```
+export ANTHROPIC_BASE_URL=http://localhost:3001
+export ANTHROPIC_AUTH_TOKEN=nvapi-api-key
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=moonshotai/kimi-k2.5
+export ANTHROPIC_DEFAULT_SONNET_MODEL=moonshotai/kimi-k2.5
+export ANTHROPIC_DEFAULT_OPUS_MODEL=moonshotai/kimi-k2.5
+```
 
 use zai/glm4.7 model
 ```bash
