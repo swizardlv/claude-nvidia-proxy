@@ -1,7 +1,7 @@
 # claude-nvidia-proxy (Go)
 
 Go https://build.nvidia.com/explore/discover, register an account, and generate an API key. 
-NVIDIA provides several models, like moonshotai/kimi-k2.5、z-ai/glm4.7、z-ar/glm5 and minimaxai/minimax-m2.1
+NVIDIA provides several models, like moonshotai/kimi-k2.5、z-ai/glm4.7、z-ai/glm5 and minimaxai/minimax-m2.1
 Then, configure the config.json file and run the program, ensuring it listens on port 3001.
 
 Expose `POST /v1/messages` (Anthropic/Claude style), convert to OpenAI Chat Completions, and proxy to NVIDIA (configured via `config.json`).
