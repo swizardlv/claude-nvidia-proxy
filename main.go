@@ -14,6 +14,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -116,6 +117,8 @@ func (km *keyManager) releaseKey(idx int) {
 }
 
 func main() {
+	checkGoVersion()
+
 	cfg, err := loadConfig()
 	if err != nil {
 		log.Fatalf("config error: %v", err)
@@ -1417,4 +1420,20 @@ func takeFirstRunes(s string, max int) string {
 		return s
 	}
 	return string(r[:max])
+}
+
+func checkGoVersion() {
+	version := runtime.Version()
+	// runtime.Version() returns strings like "go1.22.0", "go1.21.0", "go1.20"
+	// We need to parse the major and minor version
+	var major, minor int
+	if _, err := fmt.Sscanf(version, "go%d.%d", &major, &minor); err != nil {
+		log.Printf("warning: unable to parse Go version %q, proceeding anyway", version)
+		return
+	}
+
+	// Require Go 1.22 or later
+	if major < 1 || (major == 1 && minor < 22) {
+		log.Fatalf("fatal: Go 1.22 or later is required (detected: %s). Please upgrade Go to run this proxy.", version)
+	}
 }
